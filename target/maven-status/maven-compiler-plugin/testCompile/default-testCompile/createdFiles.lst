@@ -1,0 +1,10 @@
+pages\sendMessage_SelectContact.class
+pages\dashboard.class
+pages\sendMessage_SelectGroup.class
+stepDefinition\teststeps.class
+pages\loginPage.class
+testProperties\app.class
+testProperties\web.class
+pages\Home.class
+DAClient.class
+runner\testrunner.class
