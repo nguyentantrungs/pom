@@ -2,8 +2,6 @@ package stepDefinition;
 
 //========================================================
 
-import cucumber.api.PendingException;
-import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,8 +14,6 @@ import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.And;
 import cucumber.api.java.After;
-
-import org.junit.*;
 
 import java.util.concurrent.TimeUnit;
 import java.util.List;
@@ -50,10 +46,10 @@ public class teststeps {
     @After
     public void killBrowser(Scenario scenario) {
         if (webDriver != null) {
-        if (scenario.isFailed()) {
-            scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
+            if (scenario.isFailed()) {
+                scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
             }
-        webDriver.quit();
+            webDriver.quit();
         }
 //        if (DAClientSession != null) {
 //            DAClientSession.close();
@@ -68,6 +64,7 @@ public class teststeps {
         capabilities.setCapability("app", app.appPath);
         DAClientSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
         DAClientSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        System.out.print("\n DAClient is opened successfully");
     }
 
     @When("^I input following credentials to DAClient$")
@@ -95,11 +92,13 @@ public class teststeps {
     public void iOpenBrowser() {
         System.setProperty("webdriver.chrome.driver", web.chromeDriver);
         webDriver = new ChromeDriver();
+        System.out.print("\n Web browser opened successfully");
     }
 
     @Given("^I am on \"([^\"]*)\" page$")
     public void iAmOnPage(String link) {
         webDriver.get(link);
+        System.out.print("\n Page opened: " + link);
     }
 
     @When("^I input following credentials to WebUI$")
@@ -109,6 +108,7 @@ public class teststeps {
         String username = data.get(1).get(0);
         String password = data.get(1).get(1);
         loginPage.loginToWebUI(username, password);
+        System.out.print("\n Logged in WebUI with credentials: " + username + "/" + password);
     }
 
     @Then("^I should see Dashboard$")
@@ -128,12 +128,13 @@ public class teststeps {
     public void iSearchFor(String searchContact) {
         // Write code here that turns the phrase above into concrete actions
         webDriver.findElement(By.xpath(web.searchTextField)).sendKeys(searchContact);
+        System.out.print("\n Searched for " + searchContact);
     }
 
     @And("^I input subject and message body$")
     public void iInputSubjectAndMessageBody() {
-      sendMessage_Send = new sendMessage_Send(webDriver);
-      sendMessage_Send.inputEmailInfo();
+        sendMessage_Send = new sendMessage_Send(webDriver);
+        sendMessage_Send.inputEmailInfo();
     }
 
     @Given("^I check message status \"([^\"]*)\"$")
@@ -145,7 +146,7 @@ public class teststeps {
     }
 
     @Then("^I click \"([^\"]*)\" on DAClient$")
-    public void iClickOnDAClient(String button)  {
+    public void iClickOnDAClient(String button) {
         appAlertMessageScreen = new appAlertMessageScreen(DAClientSession3);
         appAlertMessageScreen.clickButton(button);
     }
