@@ -10,8 +10,8 @@ Feature: Login and Send message Feature
 #    Then I should see "Invalid username or password. Try again." message in login screen
 #    Then DAClient icon is "red"
     When I input following credentials to DAClient
-      | username      | password |
-      | steven.nguyen | abcd1234 |
+  | username      | password |
+  | steven.nguyen | abcd1234 |
 #    Then DAClient icon is "blue"
 
 

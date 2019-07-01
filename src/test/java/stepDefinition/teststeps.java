@@ -47,26 +47,13 @@ public class teststeps {
     appAlertMessageScreen appAlertMessageScreen;
 
 
-    @AfterClass
-    public static void TearDown() {
-        webDriver.close();
-        if (DAClientSession != null) {
-            DAClientSession.close();
-            DAClientSession.quit();
-        }
-        DAClientSession = null;
-    }
-
     @After
     public void killBrowser(Scenario scenario) {
         if (webDriver != null) {
         if (scenario.isFailed()) {
             scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
-            webDriver.close();
-            webDriver.quit();
             }
-            webDriver.close();
-            webDriver.quit();
+        webDriver.quit();
         }
 //        if (DAClientSession != null) {
 //            DAClientSession.close();
@@ -76,12 +63,6 @@ public class teststeps {
 
     @Given("^I open DAClient$")
     public void i_open_DAClient() throws Throwable {
-//        DesiredCapabilities capabilities3 = new DesiredCapabilities();
-//        capabilities3.setCapability("app", "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\System Tools\\Task Manager");
-//        DAClientSession3 = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities3);
-//        DAClientSession3.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//        DAClientSession3.close();
-//        DAClientSession3.quit();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("app", app.appPath);
@@ -157,46 +138,15 @@ public class teststeps {
 
     @Given("^I check message status \"([^\"]*)\"$")
     public void iCheckMessageStatus(String status) throws Throwable {
-        Thread.sleep(5000);
-        // Write code here that turns the phrase above into concrete actions
-        DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
-        desktopCapabilities.setCapability("platformName", "Windows");
-        desktopCapabilities.setCapability("deviceName", "WindowsPC");
-        desktopCapabilities.setCapability("app", "Root");
 
-// You get the desktop session
-        WindowsDriver DesktopSession = new WindowsDriver(new URL("http://127.0.0.1:4723/"), desktopCapabilities);
-
-// Here you find the already running application and get the handle
-        WebElement MAWebElement = DesktopSession.findElementByName("DesktopAlert");
-        String MAWinHandleStr = MAWebElement.getAttribute("NativeWindowHandle");
-        int MAWinHandleInt = Integer.parseInt(MAWinHandleStr);
-        String MAWinHandleHex = Integer.toHexString(MAWinHandleInt);
-
-// You attach to the already running application
-        DesiredCapabilities MACapabilities = new DesiredCapabilities();
-        MACapabilities.setCapability("platformName", "Windows");
-        MACapabilities.setCapability("deviceName", "WindowsPC");
-// You set the Handle as one of the capabilities
-        MACapabilities.setCapability("appTopLevelWindow", MAWinHandleHex);
-
-// My Application Session
-        DAClientSession3 = new WindowsDriver(new URL("http://127.0.0.1:4723/"), MACapabilities);
-
-        DAClientSession3.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         appAlertMessageScreen = new appAlertMessageScreen(DAClientSession3);
+        appAlertMessageScreen.switchToAlertScreen();
         appAlertMessageScreen.checkMessageStatus(status);
     }
 
     @Then("^I click \"([^\"]*)\" on DAClient$")
     public void iClickOnDAClient(String button)  {
-        // Write code here that turns the phrase above into concrete actions
-//        DesiredCapabilities capabilities = new DesiredCapabilities();
-//        capabilities.setCapability("app", app.appPath);
-//        DAClientSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
-//        DAClientSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-
-//        appAlertMessageScreen = new appAlertMessageScreen(DAClientSession);
+        appAlertMessageScreen = new appAlertMessageScreen(DAClientSession3);
         appAlertMessageScreen.clickButton(button);
     }
 }
