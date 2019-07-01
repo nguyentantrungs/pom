@@ -44,17 +44,14 @@ public class teststeps {
 
 
     @After
-    public void killBrowser(Scenario scenario) {
+    public void killBrowser(Scenario scenario) throws Throwable{
         if (webDriver != null) {
             if (scenario.isFailed()) {
                 scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
             }
             webDriver.quit();
+            System.out.print("\n Close browser successfully \n");
         }
-//        if (DAClientSession != null) {
-//            DAClientSession.close();
-//            DAClientSession.quit();
-//        }
     }
 
     @Given("^I open DAClient$")
@@ -64,7 +61,7 @@ public class teststeps {
         capabilities.setCapability("app", app.appPath);
         DAClientSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
         DAClientSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        System.out.print("\n DAClient is opened successfully");
+        System.out.print("\n DAClient is opened successfully \n");
     }
 
     @When("^I input following credentials to DAClient$")
@@ -92,13 +89,13 @@ public class teststeps {
     public void iOpenBrowser() {
         System.setProperty("webdriver.chrome.driver", web.chromeDriver);
         webDriver = new ChromeDriver();
-        System.out.print("\n Web browser opened successfully");
+        System.out.print("\n Web browser opened successfully \n");
     }
 
     @Given("^I am on \"([^\"]*)\" page$")
     public void iAmOnPage(String link) {
         webDriver.get(link);
-        System.out.print("\n Page opened: " + link);
+        System.out.print("\n Page opened: " + link +"\n");
     }
 
     @When("^I input following credentials to WebUI$")
@@ -108,7 +105,7 @@ public class teststeps {
         String username = data.get(1).get(0);
         String password = data.get(1).get(1);
         loginPage.loginToWebUI(username, password);
-        System.out.print("\n Logged in WebUI with credentials: " + username + "/" + password);
+        System.out.print("\n Logged in WebUI with credentials: " + username + "/" + password +"\n");
     }
 
     @Then("^I should see Dashboard$")
@@ -128,7 +125,7 @@ public class teststeps {
     public void iSearchFor(String searchContact) {
         // Write code here that turns the phrase above into concrete actions
         webDriver.findElement(By.xpath(web.searchTextField)).sendKeys(searchContact);
-        System.out.print("\n Searched for " + searchContact);
+        System.out.print("\n Searched for " + searchContact + " \n");
     }
 
     @And("^I input subject and message body$")
@@ -149,6 +146,12 @@ public class teststeps {
     public void iClickOnDAClient(String button) {
         appAlertMessageScreen = new appAlertMessageScreen(DAClientSession3);
         appAlertMessageScreen.clickButton(button);
+    }
+
+    @Then("^I exit DAClient$")
+    public void iExitDAClient() throws Throwable {
+        Runtime.getRuntime().exec("cmd /C start D:\\killDA.bat");
+        System.out.print("\n DAClient closed successfully \n");
     }
 }
 
