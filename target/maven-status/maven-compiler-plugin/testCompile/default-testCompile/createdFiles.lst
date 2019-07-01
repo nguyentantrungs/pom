@@ -1,0 +1,13 @@
+pages\sendMessage_Send.class
+pages\dashboard.class
+stepDefinition\teststeps.class
+testProperties\app.class
+DAClient.class
+pages\appAlertMessageScreen.class
+runner\testrunner.class
+pages\common.class
+pages\sendMessage_SelectContact.class
+pages\sendMessage_SelectGroup.class
+pages\loginPage.class
+testProperties\web.class
+pages\appLoginScreen.class
