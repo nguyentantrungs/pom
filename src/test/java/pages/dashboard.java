@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import testProperties.web;
 
 public class dashboard {
-    WebDriver webDriver;
+    private WebDriver webDriver;
 
     public dashboard(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -17,6 +17,7 @@ public class dashboard {
         WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.loadingIconOnDashboard)));
         WebWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(web.sendMessageOnDashboard)));
+        common.print("Dashboard is displayed successfully");
     }
 
     public void clickSendMessage(){

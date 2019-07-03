@@ -8,7 +8,7 @@ import testProperties.web;
 
 
 public class sendMessage_SelectContact {
-    WebDriver webDriver;
+    private WebDriver webDriver;
 
     public sendMessage_SelectContact(WebDriver webDriver) {
         this.webDriver = webDriver;
