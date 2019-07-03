@@ -1,18 +1,18 @@
 Feature: Login and Send message Feature
   Verify if user is able to login DAClient then receive message
 
-#  @selenium
+
   Scenario: Login DAClient in basic mode
     Given I open DAClient
-#    When I input following credentials to DAClient
-#      | username | password |
-#      | 1        | abcd1234 |
-#    Then I should see "Invalid username or password. Try again." message in login screen
-#    Then DAClient icon is "red"
+    When I input following credentials to DAClient
+      | username | password |
+      | 1        | abcd1234 |
+    Then I should see "Invalid username or password. Try again." message in login screen
+    Then DAClient icon is "red"
     When I input following credentials to DAClient
       | username      | password |
       | steven.nguyen | abcd1234 |
-#    Then DAClient icon is "blue"
+    Then DAClient icon is "blue"
 
 
   Scenario: Send message from WebUI
@@ -34,8 +34,10 @@ Feature: Login and Send message Feature
     And I click "Send Message"
 
   Scenario: Check new message on DAClient
-    Given I check message status "Alert Status: Unread"
+    Given I switch to AlertMessage screen
+    Then I check message status "Alert Status: Unread"
     Then I click "Mark As Read" on DAClient
     Then I check message status "Alert Status: Read"
     Then I click "Close" on DAClient
+    Then I exit DAClient
 

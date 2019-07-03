@@ -28,5 +28,6 @@ public class sendMessage_Send {
 
         webDriver.findElement(By.xpath(web.messageSubject)).sendKeys(" " + current_date);
         webDriver.findElement(By.xpath(web.messageBody)).sendKeys("This message is sent at " + current_date);
+        common.print("Inputted message subject and body");
     }
 }

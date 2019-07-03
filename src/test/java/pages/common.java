@@ -5,28 +5,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import testProperties.web;
-import pages.loginPage;
-import pages.dashboard;
-import java.io.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class common {
-    WebDriver webDriver;
-    loginPage login;
-    private dashboard dashboard;
-    private sendMessage_SelectGroup sendMessage_SelectGroup;
+    private WebDriver webDriver;
 
     public common (WebDriver webDriver){ this.webDriver = webDriver;}
+
+    public static void print(String string) {
+        Date date= new Date();
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+        System.out.println("\n[" + timestamp + "] " + string + "\n");
+    }
 
     public void clickButton(String thing){
         WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
 
         switch (thing.toLowerCase()) {
             case "send message on dashboard":
-                dashboard = new dashboard(webDriver);
+                pages.dashboard dashboard = new dashboard(webDriver);
                 dashboard.clickSendMessage();
+
                 break;
             case "master":
-                sendMessage_SelectGroup = new sendMessage_SelectGroup(webDriver);
+                pages.sendMessage_SelectGroup sendMessage_SelectGroup = new sendMessage_SelectGroup(webDriver);
                 sendMessage_SelectGroup.clickMaster();
                 break;
             case "next":
@@ -54,7 +59,8 @@ public class common {
                 webDriver.findElement(By.xpath((web.sendMessage))).click();
                 WebWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.loadingScreenSendMessage))));
                 break;
-        }
+            }
+        common.print("Clicked " + thing);
     }
 
 }

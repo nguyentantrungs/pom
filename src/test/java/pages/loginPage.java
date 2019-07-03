@@ -8,7 +8,7 @@ import testProperties.web;
 
 
 public class loginPage {
-    WebDriver webDriver;
+    private WebDriver webDriver;
 
     public loginPage(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -25,6 +25,7 @@ public class loginPage {
         webDriver.findElement(By.xpath(web.loginUsername)).sendKeys(strUserName);
         webDriver.findElement(By.xpath(web.loginPassword)).sendKeys(strPassword);
         webDriver.findElement(By.xpath(web.loginButton)).click();
+        common.print("Logged in WebUI with credentials: " + strUserName + "/" + strPassword);
     }
 }
 
