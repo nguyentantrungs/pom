@@ -2,6 +2,7 @@ package stepDefinition;
 
 //========================================================
 
+import cucumber.api.PendingException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,6 +17,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.Before;
 import cucumber.api.java.After;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.net.URL;
@@ -181,4 +183,36 @@ public class teststeps {
         pages.common.print("DAClient closed successfully");
     }
 
+    @Given("^I request API$")
+    public void iRequestAPI() {
+        API API = new API();
+        API.loginAdminTool();
+        API.sendRequest();
+    }
+
+    @Given("^Test$")
+    public void test() throws IOException {
+//        configuration configuration = new configuration();
+//        configuration.setVariable("456");
+    }
+
+    @Given("^I set APIKey for DAServer as \"([^\"]*)\"$")
+    public void iSetAPIKeyForDAServerAs(String apiKey) throws IOException {
+        configuration.setAPIKey(apiKey);
+    }
+
+    @And("^I set endpoint as \"([^\"]*)\"$")
+    public void iSetEndpointAs(String endpoint) throws Throwable {
+        configuration.setDABroker(endpoint);
+    }
+
+    @And("^I restart DAServer$")
+    public void iStartDAServer() throws IOException, InterruptedException {
+        configuration.restartDAServer();
+    }
+
+    @Then("^DAServer joins channel successfully$")
+    public void daserverJoinsChannelSuccessfully() throws IOException {
+        configuration.readLogsFile();
+    }
 }
