@@ -56,15 +56,17 @@ public class configuration {
         Path f = Paths.get(LogFilePath + LogFileName);
         if (Files.exists(f)) {
             Files.move(f, f.resolveSibling(LogFileName + "_old_" + new SimpleDateFormat("HHmmss").format(new Date())));
-//            System.out.print(renameResult);
+//        File file = new File(LogFilePath + LogFileName);
+//        boolean fileIsNotLocked = file.renameTo(file);
         }
+
             Runtime.getRuntime().exec("cmd /C start D:\\\\restartDAServer.bat");
             Process process = Runtime.getRuntime().exec("cmd /C start /wait D:\\\\restartDAServer_2.bat");
             process.waitFor();
 //                    Thread.sleep(10000);
     }
 
-    public static void readLogsFile() throws IOException {
+    public static void readLogsFile() throws IOException, InterruptedException {
         String LogFilePath = configurationProperties.logFilePath;
         configurationProperties configurationProperties = new configurationProperties();
         String LogFileName = configurationProperties.logFileName;
@@ -83,6 +85,13 @@ public class configuration {
             common.print("Last line of logs: \n " + last);
             throw (exception);
         }
+        input.close();
         common.print(last);
+    }
+
+    public static void stopDAServer() throws IOException, InterruptedException {
+        Runtime.getRuntime().exec("cmd /C start D:\\\\stopDAServer.bat");
+        Process process = Runtime.getRuntime().exec("cmd /C start /wait D:\\\\stopDAServer_2.bat");
+        process.waitFor();
     }
 }
