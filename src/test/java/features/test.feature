@@ -16,22 +16,22 @@ Feature: Login and Send message Feature
 
 
 #  Scenario: Send message from WebUI
-#    Given I open browser
-#    And I am on "https://idsrv-vndev2.devops.onsolve.com/account/SignIn" page
-#    When I input following credentials to WebUI
-#      | username     | password |
-#      | stevennguyen | abcd1234 |
-#    Then I should see Dashboard
-#    When I click "Send Message on Dashboard"
-#    And I click "Master"
-#    And I click "Next"
-#    And I click "Deselect All"
-#    And I search for "steven.nguyen"
-#    And I click "Search"
-#    And I click "searched contact"
-#    And I click "Next"
-#    And I input subject and message body
-#    And I click "Send Message"
+##    Given I open browser
+##    And I am on "https://idsrv-vndev2.devops.onsolve.com/account/SignIn" page
+##    When I input following credentials to WebUI
+##      | username     | password |
+##      | stevennguyen | abcd1234 |
+##    Then I should see Dashboard
+##    When I click "Send Message on Dashboard"
+##    And I click "Master"
+##    And I click "Next"
+##    And I click "Deselect All"
+##    And I search for "steven.nguyen"
+##    And I click "Search"
+##    And I click "searched contact"
+##    And I click "Next"
+##    And I input subject and message body
+##    And I click "Send Message"
 #
 #  Scenario: Check new message on DAClient
 #    Given I switch to AlertMessage screen
@@ -44,9 +44,17 @@ Feature: Login and Send message Feature
 #  Scenario: Test API
 #    Given I request API
 
-  Scenario: Test configuration
-      Given I set APIKey for DAServer as "OqTAyyL1Q1T6yVcHKinqcYV4Y2KA9q/IO01cmIcd3JQvuUWHLNMi7w=="
-      And I set endpoint as "https://devdav2broker0.centralus.cloudapp.azure.com:8079/"
-      And I restart DAServer
-      Then DAServer joins channel successfully
-#      Given Test
+  Scenario Outline: Test configuration for "<Environment>"
+    Given I set APIKey for DAServer as "<APIKey>"
+#    And I set endpoint as "<DABroker>"
+#    And I restart DAServer
+#    Then DAServer joins channel successfully
+#
+#    Examples:
+#      | Environment | APIKey                                                   | DABroker                                                 |
+#      | US1         | OqTAyyL1Q1T6yVcHKinqcYV4Y2KA9q/IO01cmIcd3JQvuUWHLNMi7w== | https://devdav2broker0.centralus.cloudapp.azure.com:8079 |
+#      | US2         | bHtxMAAQiCvs5iPJFnYfQVGLVyFFOKY6ADG0hLo                  | https://dabroker.sendwordnow.com                         |
+#      | US3         | bHtxMAAQiCvs5iPJFnYfQVGLVyFFOKY6ADG0hLo                  | https://dabroker.sendwordnow.com                         |
+
+  Scenario: Test email
+    Then I send report email

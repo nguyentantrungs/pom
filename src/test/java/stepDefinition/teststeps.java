@@ -17,6 +17,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.Before;
 import cucumber.api.java.After;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
@@ -28,6 +29,8 @@ import pages.*;
 
 import testProperties.web;
 import testProperties.app;
+
+import javax.mail.MessagingException;
 
 //========================================================
 
@@ -48,6 +51,8 @@ public class teststeps {
     @After
     public void killBrowser(Scenario scenario) throws Throwable{
         pages.common.print("==================== END SCENARIO: " + scenario.getName() + " =====================================================");
+        
+
         if (webDriver != null) {
             if (scenario.isFailed()) {
                 scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
@@ -214,5 +219,10 @@ public class teststeps {
     @Then("^DAServer joins channel successfully$")
     public void daserverJoinsChannelSuccessfully() throws IOException {
         configuration.readLogsFile();
+    }
+
+    @Then("^I send report email$")
+    public void iSendReportEmail() throws MessagingException, IOException {
+        email.main();
     }
 }
