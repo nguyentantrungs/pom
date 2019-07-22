@@ -79,13 +79,15 @@ public class configuration {
         try {
             Assert.assertTrue(last.contains("Join channel"));
             Assert.assertTrue(last.contains("successfully"));
+            input.close();
         }
         catch (AssertionError exception){
             common.print("DAServer doesn't join channel successfully");
             common.print("Last line of logs: \n " + last);
+            input.close();
             throw (exception);
         }
-        input.close();
+//        input.close();
         common.print(last);
     }
 

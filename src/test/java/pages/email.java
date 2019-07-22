@@ -19,6 +19,7 @@ import com.google.gson.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import gherkin.formatter.model.Step;
+import org.apache.commons.io.FileUtils;
 import testProperties.configurationProperties;
 
 public class email {
@@ -83,10 +84,25 @@ public class email {
     public List scenarioStatus = new ArrayList();
     public static String testStatus = "Passed";
 
-    public String parseJSON() throws IOException {
+//    public void moveReportFiles() throws IOException {
+//        File source = new File("C:\\\\Test\\\\DAClient\\\\target");
+//        configurationProperties configurationProperties = new configurationProperties();
+//        String targetPath = "C:\\\\Test\\\\Report\\\\" + configurationProperties.currentTime;
+//        File target = new File(targetPath);
+//        FileUtils.copyDirectory(source,target);
+//    }
+
+
+    public String parseJSON() throws IOException, InterruptedException {
+        File source = new File("C:\\\\Test\\\\Report\\\\temp");
+        configurationProperties configurationProperties = new configurationProperties();
+        String targetPath = "C:\\\\Test\\\\Report\\\\" + configurationProperties.currentTime;
+        File target = new File(targetPath);
+        FileUtils.copyDirectory(source,target);
+
         String internalScenarioStatus = "Passed";
 
-        Path path = Paths.get("C:\\\\Test\\\\Report\\\\cucumber.json");
+        Path path = Paths.get(targetPath +"\\\\cucumber.json");
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 
             lines.set(0, "");
@@ -94,7 +110,7 @@ public class email {
 
         Files.write(path, lines, StandardCharsets.UTF_8);
 
-        Reader reader = new FileReader("C:\\\\Test\\\\Report\\\\cucumber.json");
+        Reader reader = new FileReader(targetPath +"\\\\cucumber.json");
         Gson gson = new Gson();
         Report report = gson.fromJson(reader, Report.class);
         List<Elements> elements = report.elements;
@@ -115,7 +131,9 @@ public class email {
                 }
             }
             scenarioStatus.add(internalScenarioStatus);
+            internalScenarioStatus = "Passed";
         }
+
 
 
         String testResult = "";
@@ -128,7 +146,7 @@ public class email {
     }
 
 
-    public static void main() throws MessagingException, IOException {
+    public static void main() throws MessagingException, IOException, InterruptedException {
         email email = new email();
         String body = email.parseJSON();
         configurationProperties configurationProperties = new configurationProperties();
