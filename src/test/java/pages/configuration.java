@@ -60,8 +60,8 @@ public class configuration {
 //        boolean fileIsNotLocked = file.renameTo(file);
         }
 
-            Runtime.getRuntime().exec("cmd /C start D:\\\\restartDAServer.bat");
-            Process process = Runtime.getRuntime().exec("cmd /C start /wait D:\\\\restartDAServer_2.bat");
+//            Runtime.getRuntime().exec("cmd /C start D:\\\\restartDAServer.bat");
+            Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\restartDAServer.bat");
             process.waitFor();
 //                    Thread.sleep(10000);
     }
@@ -90,8 +90,8 @@ public class configuration {
     }
 
     public static void stopDAServer() throws IOException, InterruptedException {
-        Runtime.getRuntime().exec("cmd /C start D:\\\\stopDAServer.bat");
-        Process process = Runtime.getRuntime().exec("cmd /C start /wait D:\\\\stopDAServer_2.bat");
+//        Runtime.getRuntime().exec("cmd /C start D:\\\\stopDAServer.bat");
+        Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\stopDAServer.bat");
         process.waitFor();
     }
 }

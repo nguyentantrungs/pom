@@ -56,7 +56,7 @@ public class teststeps {
         if (webDriver != null) {
             if (scenario.isFailed()) {
                 scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
-                Runtime.getRuntime().exec("cmd /C start D:\\killDA.bat");
+                Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
                 pages.common.print("DAClient closed successfully");
             }
             webDriver.quit();
@@ -188,12 +188,12 @@ public class teststeps {
         pages.common.print("DAClient closed successfully");
     }
 
-    @Given("^I request API$")
-    public void iRequestAPI() {
-        API API = new API();
-        API.loginAdminTool();
-        API.sendRequest();
-    }
+//    @Given("^I request API$")
+//    public void iRequestAPI() {
+//        API API = new API();
+//        API.loginAdminTool();
+//        API.sendRequest();
+//    }
 
     @Given("^Test$")
     public void test() throws IOException {
@@ -217,12 +217,17 @@ public class teststeps {
     }
 
     @Then("^DAServer joins channel successfully$")
-    public void daserverJoinsChannelSuccessfully() throws IOException {
+    public void daserverJoinsChannelSuccessfully() throws IOException, InterruptedException {
         configuration.readLogsFile();
     }
 
     @Then("^I send report email$")
     public void iSendReportEmail() throws MessagingException, IOException {
         email.main();
+    }
+
+    @Given("^I stop DAServer$")
+    public void iStopDAServer() throws IOException, InterruptedException {
+        configuration.stopDAServer();
     }
 }

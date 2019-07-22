@@ -60,10 +60,6 @@ public class email {
         return session;
     }
 
-//    public static class Array{
-//        List<String>
-//    }
-
     public static class Report {
         List<Elements> elements;
     }
@@ -90,13 +86,15 @@ public class email {
     public String parseJSON() throws IOException {
         String internalScenarioStatus = "Passed";
 
-        Path path = Paths.get("target/cucumber.json");
+        Path path = Paths.get("C:\\\\Test\\\\Report\\\\cucumber.json");
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-        lines.set(0,"");
-        lines.set(lines.size()-1,"");
+
+            lines.set(0, "");
+            lines.set(lines.size()-1,"");
+
         Files.write(path, lines, StandardCharsets.UTF_8);
 
-        Reader reader = new FileReader("target/cucumber.json");
+        Reader reader = new FileReader("C:\\\\Test\\\\Report\\\\cucumber.json");
         Gson gson = new Gson();
         Report report = gson.fromJson(reader, Report.class);
         List<Elements> elements = report.elements;
@@ -132,8 +130,9 @@ public class email {
 
     public static void main() throws MessagingException, IOException {
         email email = new email();
+        String body = email.parseJSON();
         configurationProperties configurationProperties = new configurationProperties();
-        email.sendAsHtml(configurationProperties.emailRecipients, configurationProperties.emailSubject + " - " + testStatus, email.parseJSON());
+        email.sendAsHtml(configurationProperties.emailRecipients, configurationProperties.emailSubject + " - " + testStatus,body);
     }
 }
 
