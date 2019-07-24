@@ -7,6 +7,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.JsonException;
 
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
@@ -57,6 +58,8 @@ public class teststeps {
             if (scenario.isFailed()) {
                 scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
                 Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
+                Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\stopDAServer.bat");
+                process.waitFor();
                 pages.common.print("DAClient closed successfully");
             }
             webDriver.quit();
@@ -142,7 +145,7 @@ public class teststeps {
 
     @Given("^I switch to AlertMessage screen$")
     public void iSwitchToAlertMessageScreen() throws Throwable{
-        Thread.sleep(6000);
+        Thread.sleep(10000);
         DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
         desktopCapabilities.setCapability("platformName", "Windows");
         desktopCapabilities.setCapability("deviceName", "WindowsPC");
@@ -168,6 +171,12 @@ public class teststeps {
         taskbarSession = new WindowsDriver(new URL("http://127.0.0.1:4723/"), MACapabilities);
         taskbarSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         common.print("Switched to Alert Message Screen");
+    }
+
+    @Then("^I should see message from previous step$")
+    public void iShouldSeeMessageFromPreviousStep() {
+        appAlertMessageScreen = new appAlertMessageScreen(taskbarSession);
+        appAlertMessageScreen.checkReceivedMessage();
     }
 
     @Given("^I check message status \"([^\"]*)\"$")
@@ -222,7 +231,7 @@ public class teststeps {
     }
 
     @Then("^I send report email$")
-    public void iSendReportEmail() throws MessagingException, IOException {
+    public void iSendReportEmail() throws MessagingException, IOException, InterruptedException {
         email.main();
     }
 
@@ -230,4 +239,12 @@ public class teststeps {
     public void iStopDAServer() throws IOException, InterruptedException {
         configuration.stopDAServer();
     }
+
+    @Then("^Message status should be Delivered to DA Server$")
+    public void messageStatusShouldBeDeliveredToDAServer() {
+        messageHistory messageHistory = new messageHistory(webDriver);
+        messageHistory.checkMessageStatus();
+    }
+
+
 }
