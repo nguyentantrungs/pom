@@ -25,14 +25,23 @@ public class common {
         WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
 
         switch (thing.toLowerCase()) {
-            case "send message on dashboard":
+            case "send message on dashboard": {
                 pages.dashboard dashboard = new dashboard(webDriver);
                 dashboard.clickSendMessage();
-
                 break;
-            case "master":
+            }
+            case "create alert on dashboard":
+                pages.dashboard dashboard = new dashboard(webDriver);
+                dashboard.clickCreateAlert();
+                break;
+            case "master": {
                 pages.sendMessage_SelectGroup sendMessage_SelectGroup = new sendMessage_SelectGroup(webDriver);
                 sendMessage_SelectGroup.clickMaster();
+                break;
+            }
+            case "dateam":
+                pages.sendMessage_SelectGroup sendMessage_SelectGroup = new sendMessage_SelectGroup(webDriver);
+                sendMessage_SelectGroup.clickDATeam();
                 break;
             case "next":
                 WebWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(web.nextButton)));

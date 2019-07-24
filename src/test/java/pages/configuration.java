@@ -61,34 +61,38 @@ public class configuration {
         }
 
 //            Runtime.getRuntime().exec("cmd /C start D:\\\\restartDAServer.bat");
-            Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\restartDAServer.bat");
-            process.waitFor();
-//                    Thread.sleep(10000);
+        Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\restartDAServer.bat");
+        process.waitFor();
     }
 
     public static void readLogsFile() throws IOException, InterruptedException {
+        Thread.sleep(10000);
         String LogFilePath = configurationProperties.logFilePath;
         configurationProperties configurationProperties = new configurationProperties();
         String LogFileName = configurationProperties.logFileName;
         BufferedReader input = new BufferedReader(new FileReader(LogFilePath + LogFileName));
-        String last = "", line;
+        String last = "",line;
+        Boolean join = false;
 
         while ((line = input.readLine()) != null) {
             last = line;
+          if (last.contains("Join channel")) {
+            if (last.contains("successfully")) {
+                input.close();
+                common.print(last);
+                join = true;
+                break;
+            }
         }
-        try {
-            Assert.assertTrue(last.contains("Join channel"));
-            Assert.assertTrue(last.contains("successfully"));
-            input.close();
+    }
+             try {
+                 Assert.assertTrue(join);
+            } catch (AssertionError exception) {
+                common.print("DAServer doesn't join channel successfully");
+                common.print("Last line of logs: \n " + last);
+                input.close();
+                throw (exception);
         }
-        catch (AssertionError exception){
-            common.print("DAServer doesn't join channel successfully");
-            common.print("Last line of logs: \n " + last);
-            input.close();
-            throw (exception);
-        }
-//        input.close();
-        common.print(last);
     }
 
     public static void stopDAServer() throws IOException, InterruptedException {

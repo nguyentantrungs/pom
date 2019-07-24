@@ -2,12 +2,8 @@ package pages;
 
 import io.appium.java_client.windows.WindowsDriver;
 import org.junit.Assert;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import testProperties.app;
-import stepDefinition.teststeps;
+import testProperties.*;
 
-import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class appAlertMessageScreen {
@@ -25,15 +21,15 @@ public class appAlertMessageScreen {
     public void clickButton(String Button) {
         switch (Button.toLowerCase()) {
             case "mark as read":
-                alertScreenSession.findElementByName(app.markAsReadButton).click();
+                alertScreenSession.findElementByName(application.markAsReadButton).click();
                 alertScreenSession.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 
                 break;
             case "close":
-                alertScreenSession.findElementByName(app.closeButton).click();
+                alertScreenSession.findElementByName(application.closeButton).click();
                 alertScreenSession.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
                 break;
-            }
+        }
         common.print("Clicked " + Button);
     }
 
@@ -43,16 +39,27 @@ public class appAlertMessageScreen {
 
         switch (alertStatus.toLowerCase()) {
             case "read":
-                displayedStatus = alertScreenSession.findElementByName(app.alertStatusRead).getText();
+                displayedStatus = alertScreenSession.findElementByName(application.alertStatusRead).getText();
                 Assert.assertEquals(displayedStatus, alertStatus);
                 break;
 
             case "unread":
-                displayedStatus = alertScreenSession.findElementByName(app.alertStatusUnread).getText();
+                displayedStatus = alertScreenSession.findElementByName(application.alertStatusUnread).getText();
                 Assert.assertEquals(displayedStatus, alertStatus);
                 break;
-            }
+        }
         common.print("Message status is " + alertStatus);
+    }
+
+    public void checkReceivedMessage() {
+        String receivedMessage = alertScreenSession.findElementByName(sendMessage_Send.messageBody).getText();
+        try {
+            Assert.assertEquals(receivedMessage, sendMessage_Send.messageBody);
+            common.print("Message received successfully");
+        } catch (AssertionError e) {
+            common.print("Message is not received proprely");
+            throw e;
+        }
     }
 }
 

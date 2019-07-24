@@ -92,11 +92,12 @@ public class email {
 //        FileUtils.copyDirectory(source,target);
 //    }
 
-
+    public static String folderName;
     public String parseJSON() throws IOException, InterruptedException {
         File source = new File("C:\\\\Test\\\\Report\\\\temp");
         configurationProperties configurationProperties = new configurationProperties();
-        String targetPath = "C:\\\\Test\\\\Report\\\\" + configurationProperties.currentTime;
+        folderName = configurationProperties.currentTime;
+        String targetPath = "C:\\\\Test\\\\Report\\\\" + folderName;
         File target = new File(targetPath);
         FileUtils.copyDirectory(source,target);
 
@@ -140,7 +141,7 @@ public class email {
         for (int k = 0; k < scenarioName.size(); k++) {
             testResult = testResult + "<tr><td>" + scenarioName.get(k) + "</td><td>" + scenarioStatus.get(k) + "</tr>";
         }
-        testResult = testResult + "</tr>";
+        testResult = testResult + "</tr></table><p> </p>";
         String emailBody = configurationProperties.emailHeader + testResult;
         return emailBody;
     }
@@ -149,8 +150,9 @@ public class email {
     public static void main() throws MessagingException, IOException, InterruptedException {
         email email = new email();
         String body = email.parseJSON();
+        String emailFooter = "<p>Detail report can be found at following link http://da-autotest-report.southeastasia.cloudapp.azure.com/" + folderName +"/cucumber-report-html/cucumber-html-reports/src-test-java-features-test-feature.html</p>" ;
         configurationProperties configurationProperties = new configurationProperties();
-        email.sendAsHtml(configurationProperties.emailRecipients, configurationProperties.emailSubject + " - " + testStatus,body);
+        email.sendAsHtml(configurationProperties.emailRecipients, configurationProperties.emailSubject + " - " + testStatus,body+emailFooter);
     }
 }
 

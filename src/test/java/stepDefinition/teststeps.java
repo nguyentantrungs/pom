@@ -7,7 +7,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.JsonException;
 
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
@@ -18,7 +17,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.Before;
 import cucumber.api.java.After;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
@@ -28,8 +26,8 @@ import io.appium.java_client.windows.WindowsDriver;
 
 import pages.*;
 
-import testProperties.web;
-import testProperties.app;
+import testProperties.*;
+//import testProperties.application;
 
 import javax.mail.MessagingException;
 
@@ -45,21 +43,26 @@ public class teststeps {
 
 
     @Before
-    public void Before(Scenario scenario) {
+    public void Before(Scenario scenario) throws IOException {
+        Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\startWinappdriver.bat");
         pages.common.print("==================== START SCENARIO: " + scenario.getName() + " ====================================================");
     }
 
     @After
     public void killBrowser(Scenario scenario) throws Throwable{
+
+        Process process = Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\stopWinappdriver.bat");
+        process.waitFor();
+        Thread.sleep(1000);
+        Process process2 = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\stopDAServer.bat");
+        process2.waitFor();
         pages.common.print("==================== END SCENARIO: " + scenario.getName() + " =====================================================");
-        
 
         if (webDriver != null) {
             if (scenario.isFailed()) {
                 scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
                 Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
-                Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\stopDAServer.bat");
-                process.waitFor();
+                Thread.sleep(1000);
                 pages.common.print("DAClient closed successfully");
             }
             webDriver.quit();
@@ -71,7 +74,7 @@ public class teststeps {
     public void i_open_DAClient() throws Throwable {
         Runtime.getRuntime().exec("cmd /C start D:\\killDA.bat");
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("app", app.appPath);
+        capabilities.setCapability("app", application.appPath);
         DAClientSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
         DAClientSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         pages.common.print("DAClient is opened successfully");
@@ -141,6 +144,12 @@ public class teststeps {
     public void iInputSubjectAndMessageBody() {
         pages.sendMessage_Send sendMessage_Send = new sendMessage_Send(webDriver);
         sendMessage_Send.inputEmailInfo();
+    }
+
+    @And("^I input message duration as \"([^\"]*)\" hours and \"([^\"]*)\" minutes$")
+    public void iInputMessageDurationAsHoursAndMinutes(String hour, String minute) throws Throwable {
+        pages.sendMessage_Send sendMessage_Send = new sendMessage_Send(webDriver);
+        sendMessage_Send.inputDuration(hour,minute);
     }
 
     @Given("^I switch to AlertMessage screen$")
@@ -241,10 +250,11 @@ public class teststeps {
     }
 
     @Then("^Message status should be Delivered to DA Server$")
-    public void messageStatusShouldBeDeliveredToDAServer() {
+    public void messageStatusShouldBeDeliveredToDAServer() throws InterruptedException {
         messageHistory messageHistory = new messageHistory(webDriver);
         messageHistory.checkMessageStatus();
     }
+
 
 
 }

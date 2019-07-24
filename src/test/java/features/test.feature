@@ -71,6 +71,7 @@ Feature: Login and Send message Feature
     And I click "searched contact"
     And I click "Next"
     And I input subject and message body
+    And I input message duration as "0" hours and "5" minutes
     And I click "Send Message"
     Then Message status should be Delivered to DA Server
 
@@ -81,7 +82,7 @@ Feature: Login and Send message Feature
     And I check message status "Alert Status: Read"
     And I click "Close" on DAClient
     And I exit DAClient
-#
+
 #    When I stop DAServer
 
     Examples:

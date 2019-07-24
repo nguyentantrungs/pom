@@ -14,19 +14,30 @@ public class messageHistory {
         this.webDriver = webDriver;
     }
 
-    public void checkMessageStatus(){
-        WebDriverWait WebWait = new WebDriverWait(webDriver, 30);
+    public void checkMessageStatus() throws InterruptedException {
+        WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
+        WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryLoadingScreen)));
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.firstMessage)));
         WebWait.until(ExpectedConditions.elementToBeClickable(By.xpath(web.firstMessage)));
-        webDriver.findElement(By.xpath(web.firstMessage)).click();
+        long endTime = System.currentTimeMillis() + 15000 ;
+        while (System.currentTimeMillis() < endTime) {
+            if (webDriver.findElement(By.xpath(web.firstMessage)).getText().equals(sendMessage_Send.messageBody)) {
+                webDriver.findElement(By.xpath(web.firstMessage)).click();
+                break;
+            } else {
+                Thread.sleep(2000);
+            }
+        }
 
-        WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryLoadingScreen)));
+        WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryDetailLoadingScreen)));
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.deliveryStatusTab)));
         WebWait.until(ExpectedConditions.elementToBeClickable(By.xpath(web.deliveryStatusTab)));
         webDriver.findElement(By.xpath(web.deliveryStatusTab)).click();
 
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageStatus)));
-        String messageStatus = webDriver.findElement(By.xpath(web.messageStatus)).getText();
+        Thread.sleep(1000);
+        WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageStatus)));
+            String messageStatus = webDriver.findElement(By.xpath(web.messageStatus)).getText();
         try {
             Assert.assertTrue(messageStatus.equals("Delivered to DA Server") || messageStatus.equals("Message Sent") || messageStatus.equals("Message Displayed")|| messageStatus.equals("Message Received"));
             common.print("Message is delivered properly, status: " + messageStatus);

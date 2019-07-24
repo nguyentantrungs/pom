@@ -1,7 +1,6 @@
 package testProperties;
 
-public class app {
-
+public class application {
     //Application path
     public static String appPath = "C:\\Program Files (x86)\\DesktopAlert\\app\\DesktopAlert.exe";
 

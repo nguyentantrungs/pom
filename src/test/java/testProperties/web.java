@@ -39,11 +39,15 @@ public class web {
     public static String messageSubjectNew= "//span[contains(text(),'Subject')]/parent::label/following-sibling::div/input";
     public static String messageBody = "//textarea[@class='span12 m-wrap message-body single ng-pristine ng-valid']";
     public static String messageBodynew = "//span[contains(text(),'Message')]/parent::label/following-sibling::div/div/textarea";
+    public static String messageDurationHour = "//input[@name ='hours_duration']";
+    public static String messageDurationMinute = "//input[@name ='minutes_duration']";
+
 
     //Message History
     public static String messageHistoryURL = "https://webui.sendwordnow.com/#/messages/history";
     public static String firstMessage = "//tbody/tr[@class='ng-scope'][1]/td[4]/a";
-    public static String messageHistoryLoadingScreen = "//div[@class='tabbable messagehistorydetails ng-isolate-scope']/div/div[2][contains(@style,'display: none')]";
+    public static String messageHistoryLoadingScreen = "//div[@class='tabbable messagehistory ng-isolate-scope']/div/div[2][contains(@style,'display: none')]";
+    public static String messageHistoryDetailLoadingScreen = "//div[@class='tabbable messagehistorydetails ng-isolate-scope']/div/div[2][contains(@style,'display: none')]";
     public static String deliveryStatusTab = "//a[contains(text(),'Delivery Status')]/parent::li";
     public static String messageStatus = "//div[@class='infobox-content']/a/span";
 }

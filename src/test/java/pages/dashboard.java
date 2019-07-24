@@ -23,5 +23,7 @@ public class dashboard {
     public void clickSendMessage(){
         webDriver.findElement(By.xpath(web.sendMessageOnDashboard)).click();
     }
-
+    public void clickCreateAlert(){
+        webDriver.findElement(By.xpath(web.createAlertOnDashboard)).click();
+    }
 }

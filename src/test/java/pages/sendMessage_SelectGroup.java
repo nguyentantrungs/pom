@@ -19,5 +19,10 @@ class sendMessage_SelectGroup {
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.masterGroupCheckbox)));
         webDriver.findElement(By.xpath(web.masterGroupCheckbox)).click();
     }
+    void clickDATeam(){
+        WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
+        WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.daTeamGroupCheckbox)));
+        webDriver.findElement(By.xpath(web.daTeamGroupCheckbox)).click();
+    }
 
 }
