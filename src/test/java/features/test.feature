@@ -50,12 +50,11 @@ Feature: Login and Send message Feature
     And I restart DAServer
     Then DAServer joins channel successfully
 
-    When I open DAClient
-    And I input following credentials to DAClient
-      | username            | password        |
-      | <DAClient_username> | <DAClient_pass> |
-    Then DAClient icon is "blue"
-
+#    When I open DAClient
+#    And I input following credentials to DAClient
+#      | username            | password        |
+#      | <DAClient_username> | <DAClient_pass> |
+#    Then DAClient icon is "blue"
 
     When I open browser
     And I am on "<LoginPage>" page
@@ -64,6 +63,7 @@ Feature: Login and Send message Feature
       | <WebUI_username> | <WebUI_pass> |
     Then I should see Dashboard
     When I click "Create Alert on Dashboard"
+    And I search for group "DATeam"
     And I click "DATeam"
     And I click "Next"
     And I click "Deselect All"
@@ -75,13 +75,13 @@ Feature: Login and Send message Feature
     And I click "Send Message"
     Then Message status should be Delivered to DA Server
 
-    Given I switch to AlertMessage screen
-    Then I should see message from previous step
-    When I check message status "Alert Status: Unread"
-    And I click "Mark As Read" on DAClient
-    And I check message status "Alert Status: Read"
-    And I click "Close" on DAClient
-    And I exit DAClient
+#    Given I switch to AlertMessage screen
+#    Then I should see message from previous step
+#    When I check message status "Alert Status: Unread"
+#    And I click "Mark As Read" on DAClient
+#    And I check message status "Alert Status: Read"
+#    And I click "Close" on DAClient
+#    And I exit DAClient
 
 #    When I stop DAServer
 

@@ -26,6 +26,9 @@ public class web {
 
 
     //Send Message - Select Group
+    public static String groupLoadingScreen = "//div[@class='form ng-scope ng-isolate-scope']/div/div[2][contains(@style,'display: none')]";
+    public static String groupSearchField = "//input[@class='swn-search-box-input ng-pristine ng-valid']";
+    public static String groupSearchButton = "//span[contains(text(),'Search')]";
     public static String masterGroupCheckbox = "//tbody/tr[3]/td/span/input[1]";
     public static String daTeamGroupCheckbox = "//span[contains(text(),'DATeam')]/parent::td/preceding-sibling::td/span/input";
 

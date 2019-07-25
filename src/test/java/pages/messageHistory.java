@@ -14,19 +14,26 @@ public class messageHistory {
         this.webDriver = webDriver;
     }
 
-    public void checkMessageStatus() throws InterruptedException {
+    public void checkMessageStatus() throws Exception {
         WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryLoadingScreen)));
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.firstMessage)));
         WebWait.until(ExpectedConditions.elementToBeClickable(By.xpath(web.firstMessage)));
-        long endTime = System.currentTimeMillis() + 15000 ;
+        long endTime = System.currentTimeMillis() + 30000 ;
+        String firstMessage ="";
         while (System.currentTimeMillis() < endTime) {
-            if (webDriver.findElement(By.xpath(web.firstMessage)).getText().equals(sendMessage_Send.messageBody)) {
-                webDriver.findElement(By.xpath(web.firstMessage)).click();
-                break;
-            } else {
+            try {firstMessage = webDriver.findElement(By.xpath(web.firstMessage)).getText();
+                if (firstMessage.equals(sendMessage_Send.messageBody)) {
+                    webDriver.findElement(By.xpath(web.firstMessage)).click();
+                    break;
+                } else {
+                    Thread.sleep(2000);
+                }
+            }
+            catch (org.openqa.selenium.StaleElementReferenceException e){
                 Thread.sleep(2000);
             }
+
         }
 
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryDetailLoadingScreen)));
@@ -43,7 +50,8 @@ public class messageHistory {
             common.print("Message is delivered properly, status: " + messageStatus);
         } catch (AssertionError e){
             common.print("Message is NOT delivered properly, current status: " + messageStatus);
-            throw e;
+            throw new Exception("Message is NOT delivered properly, current status: " + messageStatus, e);
+//            throw e;
         }
     }
 

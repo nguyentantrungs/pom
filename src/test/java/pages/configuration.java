@@ -48,24 +48,16 @@ public class configuration {
         String LogFilePath = configurationProperties.logFilePath;
         configurationProperties configurationProperties = new configurationProperties();
         String LogFileName = configurationProperties.logFileName;
-//        File f = new File(LogFilePath+LogFileName);
-//        if(f.exists() && !f.isDirectory()) {
-//            boolean renameResult = f.renameTo((new File(LogFileName + "_old")));
-//            System.out.print(renameResult);
-//        }
         Path f = Paths.get(LogFilePath + LogFileName);
         if (Files.exists(f)) {
             Files.move(f, f.resolveSibling(LogFileName + "_old_" + new SimpleDateFormat("HHmmss").format(new Date())));
-//        File file = new File(LogFilePath + LogFileName);
-//        boolean fileIsNotLocked = file.renameTo(file);
         }
 
-//            Runtime.getRuntime().exec("cmd /C start D:\\\\restartDAServer.bat");
         Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\restartDAServer.bat");
         process.waitFor();
     }
 
-    public static void readLogsFile() throws IOException, InterruptedException {
+    public static void readLogsFile() throws Exception {
         Thread.sleep(10000);
         String LogFilePath = configurationProperties.logFilePath;
         configurationProperties configurationProperties = new configurationProperties();
@@ -91,7 +83,7 @@ public class configuration {
                 common.print("DAServer doesn't join channel successfully");
                 common.print("Last line of logs: \n " + last);
                 input.close();
-                throw (exception);
+                throw new Exception ("DAServer failed to join channel, last line of logs: " + last + "\n", exception);
         }
     }
 

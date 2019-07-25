@@ -139,7 +139,12 @@ public class email {
 
         String testResult = "";
         for (int k = 0; k < scenarioName.size(); k++) {
-            testResult = testResult + "<tr><td>" + scenarioName.get(k) + "</td><td>" + scenarioStatus.get(k) + "</tr>";
+            testResult = testResult + "<tr><td>" + scenarioName.get(k) + "</td>";
+            if (scenarioStatus.get(k).equals("Passed")){
+                testResult = testResult + "<td style='background-color:Green;text-align:center'><b>" + scenarioStatus.get(k) + "</b></td></tr>";
+        } else {
+                testResult = testResult + "<td style='background-color:Red;text-align:center'><b>" + scenarioStatus.get(k) + "</b></td></tr>";
+            }
         }
         testResult = testResult + "</tr></table><p> </p>";
         String emailBody = configurationProperties.emailHeader + testResult;

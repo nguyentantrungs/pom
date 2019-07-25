@@ -44,16 +44,17 @@ public class teststeps {
 
     @Before
     public void Before(Scenario scenario) throws IOException {
-        Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\startWinappdriver.bat");
+//        Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\startWinappdriver.bat");
+        Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
         pages.common.print("==================== START SCENARIO: " + scenario.getName() + " ====================================================");
     }
 
     @After
     public void killBrowser(Scenario scenario) throws Throwable{
-
-        Process process = Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\stopWinappdriver.bat");
-        process.waitFor();
-        Thread.sleep(1000);
+//
+//        Process process = Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\stopWinappdriver.bat");
+//        process.waitFor();
+//        Thread.sleep(1000);
         Process process2 = Runtime.getRuntime().exec("cmd /C start /wait C:\\\\Test\\\\DAClient\\\\stopDAServer.bat");
         process2.waitFor();
         pages.common.print("==================== END SCENARIO: " + scenario.getName() + " =====================================================");
@@ -72,7 +73,7 @@ public class teststeps {
 
     @Given("^I open DAClient$")
     public void i_open_DAClient() throws Throwable {
-        Runtime.getRuntime().exec("cmd /C start D:\\killDA.bat");
+        Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("app", application.appPath);
         DAClientSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
@@ -126,6 +127,12 @@ public class teststeps {
     public void iShouldSeeDashboard() {
         pages.dashboard dashboard = new dashboard(webDriver);
         dashboard.checkLoginsuccessfully();
+    }
+
+    @And("^I search for group \"([^\"]*)\"$")
+    public void iSearchForGroup(String group) throws Throwable {
+        sendMessage_SelectGroup sendMessage_selectGroup = new sendMessage_SelectGroup(webDriver);
+        sendMessage_selectGroup.searchGroup(group);
     }
 
     @And("^I click \"([^\"]*)\"$")
@@ -235,7 +242,7 @@ public class teststeps {
     }
 
     @Then("^DAServer joins channel successfully$")
-    public void daserverJoinsChannelSuccessfully() throws IOException, InterruptedException {
+    public void daserverJoinsChannelSuccessfully() throws Exception {
         configuration.readLogsFile();
     }
 
@@ -250,7 +257,7 @@ public class teststeps {
     }
 
     @Then("^Message status should be Delivered to DA Server$")
-    public void messageStatusShouldBeDeliveredToDAServer() throws InterruptedException {
+    public void messageStatusShouldBeDeliveredToDAServer() throws Exception {
         messageHistory messageHistory = new messageHistory(webDriver);
         messageHistory.checkMessageStatus();
     }
