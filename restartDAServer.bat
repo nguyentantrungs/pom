@@ -1,3 +1,4 @@
+ipconfig/flushdns
 net stop "Desktop Alerting Server"  || net start "Desktop Alerting Server" 
 net start "Desktop Alerting Server"
 
