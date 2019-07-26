@@ -19,13 +19,6 @@
         <ashot.version>1.4.10</ashot.version>
         <maven.test.failure.ignore>true</maven.test.failure.ignore>
     </properties>
-    <developers>
-        <developer>
-            <id>Steven.Nguyen</id>
-            <name>Trung Nguyen</name>
-            <email>anesthetize3@gmail.com</email>
-        </developer>
-    </developers>
 
     <dependencies>
         <dependency>
@@ -95,31 +88,16 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>io.cucumber</groupId>-->
-        <!--            <artifactId>gherkin</artifactId>-->
-        <!--            <version>3.2.0</version>-->
-        <!--        </dependency>-->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.guava</groupId>-->
-        <!--            <artifactId>guava</artifactId>-->
-        <!--            <version>10.0</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>junit</groupId>-->
-        <!--            <artifactId>junit</artifactId>-->
-        <!--            <version>4.12</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.seleniumhq.selenium</groupId>-->
+<!--            <artifactId>selenium-java</artifactId>-->
+<!--            <version>3.1.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>5.0.0-BETA6</version>
+            <version>7.0.0</version>
+<!--            <version>4.1.2</version>-->
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -144,17 +122,6 @@
             <version>2.8.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!--        <dependency>-->
-<!--            <groupId>info.cukes</groupId>-->
-<!--            <artifactId>cucumber-testng</artifactId>-->
-<!--            <version>1.1.5</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.maven.plugins</groupId>-->
-<!--            <artifactId>maven-surefire-plugin</artifactId>-->
-<!--            <version>2.12.4</version>-->
-<!--        </dependency>-->
 
     </dependencies>
     <build>
@@ -210,69 +177,6 @@
                     <argLine>-Dlog4j.configuration=</argLine>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.1</version>-->
-<!--                <configuration>-->
-<!--                    <fork>true</fork>-->
-<!--                    <executable>C:\Program Files\Java\jdk1.7.0_45\bin\javac.exe</executable>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>ch.fortysix</groupId>-->
-<!--                <artifactId>maven-postman-plugin</artifactId>-->
-<!--                <version>0.1.6</version>-->
-<!--                <configuration>-->
-<!--                    <skip>false</skip>-->
-<!--                    <from>anesthetize3@gmail.com</from>-->
-<!--                    <failonerror>true</failonerror>-->
-<!--                    <mailhost>smtp.gmail.com</mailhost>-->
-<!--                    <mailuser>anesthetize3@gmail.com</mailuser>-->
-<!--                    <mailpassword>GmailPassword@2</mailpassword>-->
-<!--                    <receivers>-->
-<!--                        <receiver>steven.nguyen@onsolve.com</receiver>-->
-<!--&lt;!&ndash;                        <receiver>dundy@youcomp.com</receiver>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <receiver>dev2</receiver>&ndash;&gt;-->
-<!--                    </receivers>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>send surefire notification</id>-->
-<!--                        <phase>site</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>surefire-mail</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <subject>Test Surefire</subject>-->
-<!--                            <groovyCondition><![CDATA[errors < skipped]]></groovyCondition>-->
-<!--                            <receivers>-->
-<!--                                <receiver>1111</receiver>-->
-<!--                            </receivers>-->
-<!--                            <from/>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-changes-plugin</artifactId>-->
-<!--                <version>2.12.1</version>-->
-<!--                <configuration>-->
-<!--                <smtpHost>smtp.gmail.com</smtpHost>-->
-<!--                <smtpPort implementation="java.lang.Integer">465</smtpPort>-->
-<!--                    <fromDeveloperId>Steven.Nguyen</fromDeveloperId>-->
-<!--                    <toAddresses>-->
-<!--                    <toAddress implementation="java.lang.String">steven.nguyen@onsolve.com</toAddress>-->
-<!--&lt;!&ndash;                    <toAddress implementation="java.lang.String">anothersomeone@email.com</toAddress>&ndash;&gt;-->
-<!--                </toAddresses>-->
-
-<!--                <issueTypes>-->
-<!--                    <add>Story</add>-->
-<!--                    <fix>Defect, Malfunction</fix>-->
-<!--                </issueTypes>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
 
         </plugins>
 
