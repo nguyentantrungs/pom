@@ -62,7 +62,7 @@ public class teststeps {
         if (webDriver != null) {
             if (scenario.isFailed()) {
                 scenario.embed(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES), "image/png");
-                Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
+//                Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
                 Thread.sleep(1000);
                 pages.common.print("DAClient closed successfully");
             }
@@ -73,7 +73,8 @@ public class teststeps {
 
     @Given("^I open DAClient$")
     public void i_open_DAClient() throws Throwable {
-        Runtime.getRuntime().exec("cmd /C start C:\\Test\\DAClient\\killDA.bat");
+        Process process = Runtime.getRuntime().exec("cmd /C start /wait C:\\Test\\DAClient\\killDA.bat");
+        process.waitFor();
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("app", application.appPath);
         DAClientSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
@@ -144,6 +145,7 @@ public class teststeps {
     @And("^I search for \"([^\"]*)\"$")
     public void iSearchFor(String searchContact) {
         webDriver.findElement(By.xpath(web.searchTextField)).sendKeys(searchContact);
+//        webDriver.findElement(By.xpath(web.searchTextField)).sendKeys(Keys.ENTER);
         pages.common.print("Searched for " + searchContact);
     }
 
