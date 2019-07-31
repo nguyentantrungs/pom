@@ -22,7 +22,7 @@ public class common {
     }
 
     public void clickButton(String thing){
-        WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
+        WebDriverWait WebWait = new WebDriverWait(webDriver, 70);
 
         switch (thing.toLowerCase()) {
             case "send message on dashboard": {
@@ -64,9 +64,16 @@ public class common {
                 webDriver.findElement(By.xpath(web.searchedContact)).click();
                 break;
             case "send message":
-                WebWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(web.sendMessage)));
-                webDriver.findElement(By.xpath((web.sendMessage))).click();
+                try{
+                    WebWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(web.sendMessage)));
+                    webDriver.findElement(By.xpath((web.sendMessage))).click();
+                    WebWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.loadingScreenSendMessage))));
+                }
+                catch (org.openqa.selenium.ElementClickInterceptedException e) {
+                WebWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(web.sendMessage_US)));
+                webDriver.findElement(By.xpath((web.sendMessage_US))).click();
                 WebWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.loadingScreenSendMessage))));
+                }
                 break;
             }
         common.print("Clicked " + thing);
