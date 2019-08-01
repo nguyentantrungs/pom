@@ -2,6 +2,8 @@ package pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,25 +17,24 @@ public class messageHistory {
     }
 
     public void checkMessageStatus() throws Exception {
-        WebDriverWait WebWait = new WebDriverWait(webDriver, 50);
+        WebDriverWait WebWait = new WebDriverWait(webDriver, 70);
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryLoadingScreen)));
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.firstMessage)));
         WebWait.until(ExpectedConditions.elementToBeClickable(By.xpath(web.firstMessage)));
-        long endTime = System.currentTimeMillis() + 30000 ;
+        long endTime = System.currentTimeMillis() + 70000 ;
         String firstMessage ="";
         while (System.currentTimeMillis() < endTime) {
-            try {firstMessage = webDriver.findElement(By.xpath(web.firstMessage)).getText();
+            try {
+                firstMessage = webDriver.findElement(By.xpath(web.firstMessage)).getText();
                 if (firstMessage.equals(sendMessage_Send.messageBody)) {
                     webDriver.findElement(By.xpath(web.firstMessage)).click();
                     break;
                 } else {
                     Thread.sleep(2000);
                 }
-            }
-            catch (org.openqa.selenium.StaleElementReferenceException e){
+            } catch (StaleElementReferenceException | NoSuchElementException e) {
                 Thread.sleep(2000);
             }
-
         }
 
         WebWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(web.messageHistoryDetailLoadingScreen)));
